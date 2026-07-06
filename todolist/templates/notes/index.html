@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <div class="header-notes-page">
+    <h1>{% block title %}Notes{% endblock %}</h1>
+    {% if g.user %}
+    <div class="plus-icon">
+        <a class="action" href="{{ url_for('notes.create') }}"><i class="fa-solid fa-plus"></i></a>
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="notes-container-layout">
+    <div class="notes-container">
+    {% if not tasks %}
+      <p class="empty">No notes yet.</p>
+    {% endif %}
+    {% for task in tasks %}
+      <article class="task">
+        <header>
+          <div>
+            <h1>{{ task['title'] }}</h1>
+            <!-- <div class="about">by {{ task['username'] }} on {{ task['created'].strftime('%Y-%m-%d') }}</div> -->
+            {% if g.user['id'] == task['author_id'] %}
+            <div class="actions">
+              <a class="edit-icon" href="{{ url_for('notes.update', id=task['id']) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+              <form action="{{ url_for('notes.delete', id=task['id']) }}" method="post">
+                <button class="delete-icon" type="submit" onclick="return confirm('Are you sure you want to delete this note?')">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </form>
+            </div>
+              {% endif %}
+          </div>
+        </header>
+        <p class="body">{{ task['task'] }}</p>
+      </article>
+    {% endfor %}
+    </div>
+  </div>
+{% endblock %}
