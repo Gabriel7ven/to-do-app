@@ -11,6 +11,9 @@
             <div>
                 <label for="username">Username</label>
                 <input name="username" id="username" type="text">
+                {% for message in get_flashed_messages() %}
+                    <small class="flash-error">{{ message }}</small>
+                {% endfor %}
             </div>
             <div>
                 <label for="password">Password</label>

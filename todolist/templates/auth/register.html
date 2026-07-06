@@ -10,11 +10,17 @@
         <form method="post">
             <div>
                 <label for="username">Username</label>
-                <input name="username" id="username" type="text">
+                <input name="username" id="username" type="text" value="{{ username }}">
+                {% for message in get_flashed_messages(category_filter="username error") %}
+                    <small class="flash-error">{{ message }}</small>
+                {% endfor %}
             </div>
             <div>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" >
+                <input type="password" name="password" id="password">
+                {% for message in get_flashed_messages(category_filter="empty password") %}
+                    <small class="flash-error">{{ message }}</small>
+                {% endfor %}
             </div>
             <input type="submit" value="Register">
         </form>

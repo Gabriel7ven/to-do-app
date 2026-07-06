@@ -13,10 +13,12 @@
 
 {% block content %}
   <div class="notes-container-layout">
-    <div class="notes-container">
     {% if not tasks %}
+     <div class="empty-box-container">
       <p class="empty">No notes yet.</p>
+    </div>
     {% endif %}
+    <div class="notes-container">
     {% for task in tasks %}
       <article class="task">
         <header>

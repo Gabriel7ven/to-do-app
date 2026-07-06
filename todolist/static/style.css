@@ -113,6 +113,7 @@ nav ul > li {
 
 .form-container label {
     margin-bottom: 0.5rem;
+    margin-top: 1rem;
 }
 
 .form-container input[type="submit"] {
@@ -122,6 +123,7 @@ nav ul > li {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-top: 1rem;
 }
 
 .form-container input[type="submit"]:hover {
@@ -131,7 +133,7 @@ nav ul > li {
 .form-container input[type="text"],
 .form-container input[type="password"] {
     padding: 0.5rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -258,4 +260,33 @@ article header div h1 {
 .previous a {
     text-decoration: none;
     color: white;
+}
+
+.empty-box-container {
+    display: flex;
+    justify-content: center;
+    /* background-color: orange; */
+    margin-top: 2rem;
+}
+.empty {
+    font-family: "Fuzzy Bubbles", sans-serif;
+    font-weight: 700;
+    font-style: bold;
+}
+.empty-box {
+    width: 200px;
+    height: 200px;
+}
+
+/* .flash {
+    color: red;
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 1rem;
+} */
+
+small {
+    color: red;
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
 }
