@@ -4,7 +4,9 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from todolist.auth import login_required
-from todolist.db import get_db
+# from todolist.db import get_db
+from todolist import db
+from todolist.models.models import User, Note
 
 bp = Blueprint('notes', __name__)
 
@@ -13,13 +15,21 @@ def index():
     if g.user is None:
         return redirect(url_for('auth.login'))
 
-    db = get_db()
-    tasks = db.execute(
-        'SELECT p.id, title, task, created, author_id, username'
-        ' FROM note p JOIN user u ON p.author_id = u.id'
-        ' WHERE p.author_id = ?'
-        ' ORDER BY created DESC', (g.user['id'],)
-    ).fetchall()
+    stmt = (
+        db.select(Note, User.username)
+        .join(User, Note.author_id == User.id)
+        .where(Note.author_id == g.user.id)
+        .order_by(Note.created.desc())
+    )
+
+    tasks = db.session.execute(stmt).all()
+    # db = get_db()
+    # tasks = db.execute(
+    #     'SELECT p.id, title, task, created, author_id, username'
+    #     ' FROM note p JOIN user u ON p.author_id = u.id'
+    #     ' WHERE p.author_id = ?'
+    #     ' ORDER BY created DESC', (g.user['id'],)
+    # ).fetchall()
     return render_template('notes/index.html', tasks=tasks)
 
 

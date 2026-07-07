@@ -1,14 +1,28 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from dotenv import load_dotenv
 import os
 
-from flask import Flask
+
+load_dotenv()
+
+db = SQLAlchemy()
+migrate = Migrate()
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-    )
+    app = Flask(__name__) #, instance_relative_config=True)
+    # app.config.from_mapping(
+    #     SECRET_KEY='dev',
+    #     DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+    # )
+    app.config['SECRET_KEY'] = 'dev'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -26,11 +40,12 @@ def create_app(test_config=None):
         return 'Hello, World!'
     
 
-    from . import db
+    # from . import db
     from . import auth
     from . import notes
 
-    db.init_app(app)
+    # db.init_app(app)
+    
     app.register_blueprint(auth.bp)
     app.register_blueprint(notes.bp)
     app.add_url_rule('/', endpoint='index')
