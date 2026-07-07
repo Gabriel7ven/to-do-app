@@ -17,7 +17,7 @@ def create_app(test_config=None):
     #     SECRET_KEY='dev',
     #     DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     # )
-    app.config['SECRET_KEY'] = 'dev'
+    app.config['SECRET_KEY'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
