@@ -14,9 +14,10 @@
             </div>
             <div>
                 <label for="task">Task</label>
-                <input name="task" id="task" type="text">
+                <!--<input name="task" id="task" type="text">-->
+                <textarea id="task" name="task" rows="5" cols="33"></textarea>
             </div>
-            <input type="submit" value="Create Note">
+            <input class="primary" type="submit" value="Create Note">
         </form>
         <button class="previous"><a href="{{ url_for('notes.index') }}">Voltar</a></button>
    </div>

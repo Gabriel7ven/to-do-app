@@ -23,9 +23,9 @@
       <article class="task">
         <header>
           <div>
-            <h1>{{ task['title'] }}</h1>
-            <!-- <div class="about">by {{ task['username'] }} on {{ task['created'].strftime('%Y-%m-%d') }}</div> -->
-            {% if g.user['id'] == task['author_id'] %}
+            <h1>{{ task.title }}</h1>
+            
+            {% if g.user.id == task.author_id%}
             <div class="actions">
               <a class="edit-icon" href="{{ url_for('notes.update', id=task['id']) }}"><i class="fa-solid fa-pen-to-square"></i></a>
               <form action="{{ url_for('notes.delete', id=task['id']) }}" method="post">
@@ -36,8 +36,10 @@
             </div>
               {% endif %}
           </div>
+          <p class="created">Created at {{task.created.strftime('%d/%m/%Y') }}</p>
+          <hr />
         </header>
-        <p class="body">{{ task['task'] }}</p>
+        <p class="body">{{ task.task }}</p>
       </article>
     {% endfor %}
     </div>

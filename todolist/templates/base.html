@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <nav>
-            <h1>To-Do List</h1>
+            <a href="{{ url_for('index') }}"><h1>Keep Notes</h1></a>
             <ul>
                 {% if g.user %}
                 <li>Olá, <span class="username">{{ g.user['username'] }}</span>
@@ -30,9 +30,10 @@
             {% endfor %}-->
             {% block content %}{% endblock %}
         </section>
+         <footer>
+            <p>&copy; 2026 Keep Notes App</p>
+        </footer>
     </div>
-    <footer>
-        <p>&copy; 2026 To-Do List App</p>
-    </footer>
+   
 </body>
 </html>

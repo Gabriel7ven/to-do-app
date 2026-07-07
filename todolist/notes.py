@@ -16,20 +16,14 @@ def index():
         return redirect(url_for('auth.login'))
 
     stmt = (
-        db.select(Note, User.username)
+        db.select(Note)
         .join(User, Note.author_id == User.id)
         .where(Note.author_id == g.user.id)
-        .order_by(Note.created.desc())
+        #.order_by(Note.created.desc())
     )
 
-    tasks = db.session.execute(stmt).all()
-    # db = get_db()
-    # tasks = db.execute(
-    #     'SELECT p.id, title, task, created, author_id, username'
-    #     ' FROM note p JOIN user u ON p.author_id = u.id'
-    #     ' WHERE p.author_id = ?'
-    #     ' ORDER BY created DESC', (g.user['id'],)
-    # ).fetchall()
+    tasks = db.session.execute(stmt).scalars()
+    
     return render_template('notes/index.html', tasks=tasks)
 
 
@@ -47,29 +41,32 @@ def create():
         if error is not None:
             flash(error)
         else:
-            db = get_db()
-            db.execute(
-                'INSERT INTO note (title, task, author_id)'
-                ' VALUES (?, ?, ?)',
-                (title, task, g.user['id'])
-            )
-            db.commit()
+            new_note = Note(title=title, task=task, author_id=g.user.id)
+            db.session.add(new_note)
+            db.session.commit()
             return redirect(url_for('notes.index'))
 
     return render_template('notes/create.html')
 
 def get_task(id, check_author=True):
-    task = get_db().execute(
-        'SELECT p.id, title, task, created, author_id, username'
-        ' FROM note p JOIN user u ON p.author_id = u.id'
-        ' WHERE p.id = ?',
-        (id,)
-    ).fetchone()
+    # task = get_db().execute(
+    #     'SELECT p.id, title, task, created, author_id, username'
+    #     ' FROM note p JOIN user u ON p.author_id = u.id'
+    #     ' WHERE p.id = ?',
+    #     (id,)
+    # ).fetchone()
+    stmt = (
+        db.select(Note)
+        .join(User, Note.author_id == User.id)
+        .where(Note.id == id)
+    )
 
+    task = db.session.execute(stmt).scalar_one_or_none()
+    
     if task is None:
         abort(404, f"Task id {id} doesn't exist.")
 
-    if check_author and task['author_id'] != g.user['id']:
+    if check_author and task.author_id != g.user.id:
         abort(403)
 
     return task
@@ -91,13 +88,9 @@ def update(id):
         if error is not None:
             flash(error)
         else:
-            db = get_db()
-            db.execute(
-                'UPDATE note SET title = ?, task = ?'
-                ' WHERE id = ?',
-                (title, task_text, id)
-            )
-            db.commit()
+            task.title = title
+            task.task = task_text
+            db.session.commit()
             return redirect(url_for('notes.index'))
 
     return render_template('notes/update.html', task=task)
@@ -106,8 +99,10 @@ def update(id):
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
-    get_task(id)
-    db = get_db()
-    db.execute('DELETE FROM note WHERE id = ?', (id,))
-    db.commit()
+    task = get_task(id)
+    # db = get_db()
+    # db.execute('DELETE FROM note WHERE id = ?', (id,))
+    # db.commit()
+    db.session.delete(task)
+    db.session.commit()
     return redirect(url_for('notes.index'))
