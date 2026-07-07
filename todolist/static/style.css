@@ -20,18 +20,20 @@
 
 html {
   font-family: sans-serif;
-  background: #eee;
+  /* background: #eee; */
 
 }
 
 body {
   max-width: 960px;
   margin: 0 auto;
+  background-color: #444b73;
 }
 
 .container {
     position: relative;
     width: 100%;
+    height: 100vh;
     background-color: var(--background-color);
 
 }
@@ -169,14 +171,15 @@ nav ul > li {
 }
 
 footer {
-    /* position: absolute; */
-    /* bottom: 0; */
+    position: absolute;
+    bottom: 0;
     text-align: center;
     padding: 1rem;
     background-color: var(--dark-grey);
     color: white;
     width: 100%;
-    margin-top: 5rem;
+    /* margin-top: 5rem; */
+
 }
 
 
