@@ -45,8 +45,11 @@ body {
 }
 
 .notes-container {
-    display: grid;
-    grid-template-columns: auto auto auto;
+    /* display: grid;
+    grid-template-columns: auto auto auto; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
     padding: 1rem;
     /* background-color: red; */
