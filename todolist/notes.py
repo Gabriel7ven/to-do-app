@@ -4,7 +4,6 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from todolist.auth import login_required
-# from todolist.db import get_db
 from todolist import db
 from todolist.models.models import User, Note
 
@@ -49,12 +48,6 @@ def create():
     return render_template('notes/create.html')
 
 def get_task(id, check_author=True):
-    # task = get_db().execute(
-    #     'SELECT p.id, title, task, created, author_id, username'
-    #     ' FROM note p JOIN user u ON p.author_id = u.id'
-    #     ' WHERE p.id = ?',
-    #     (id,)
-    # ).fetchone()
     stmt = (
         db.select(Note)
         .join(User, Note.author_id == User.id)
@@ -100,9 +93,6 @@ def update(id):
 @login_required
 def delete(id):
     task = get_task(id)
-    # db = get_db()
-    # db.execute('DELETE FROM note WHERE id = ?', (id,))
-    # db.commit()
     db.session.delete(task)
     db.session.commit()
     return redirect(url_for('notes.index'))

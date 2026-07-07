@@ -4,7 +4,6 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-# from todolist.db import get_db
 
 from todolist.models.models import User
 from todolist import db
@@ -46,12 +45,8 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        # db = get_db()
         error = None
         user = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
-        # user = db.execute(
-        #     'SELECT * FROM user WHERE username = ?', (username,)
-        # ).fetchone()
 
         if user is None or \
         not check_password_hash(user.password, password):
@@ -74,9 +69,6 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one_or_none()
-        # g.user = get_db().execute(
-        #     'SELECT * FROM user WHERE id = ?', (user_id,)
-        # ).fetchone()
 
 @bp.route('/logout')
 def logout():
