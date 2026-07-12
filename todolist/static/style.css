@@ -239,11 +239,13 @@ footer {
 
 article {
     background-color: rgb(255, 253, 135);
-    width: min(100%, 280px);
+    width: 280px;
     padding: 1rem;
     border-radius: 8px;
     color: black;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 article header div {
@@ -251,8 +253,8 @@ article header div {
     padding: 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    /* background-color: var(--blue); */
+    align-items: flex-start;
+    gap: 0.5rem;
 }
 article header div h1 {
     margin: 0;
@@ -261,6 +263,9 @@ article header div h1 {
     font-family: "Fuzzy Bubbles", sans-serif;
     font-weight: 700;
     font-style: bold;
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .created {
@@ -268,6 +273,13 @@ article header div h1 {
     font-family: "Fuzzy Bubbles", sans-serif;
     font-weight: 700;
     font-style: bold;
+    overflow-wrap: anywhere;
+}
+
+.body {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    margin-bottom: 0;
 }
 
 hr {
