@@ -101,9 +101,7 @@ O aplicativo estará disponível em `http://127.0.0.1:5000/`.
 3. Faça login em `/auth/login`.
 4. Crie, atualize e exclua notas na página principal.
 
-## Screenshot do usuário logado
 
-<img src="todolist/static/images/index.png" alt="Tela inicial" width="700">
 
 
 ## Rotas principais
